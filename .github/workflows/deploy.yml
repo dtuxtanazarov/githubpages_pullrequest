@@ -2,8 +2,7 @@ name: Deploy to GitHub Pages (PR only)
 
 on:
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
 
 permissions:
   contents: read
@@ -11,24 +10,17 @@ permissions:
   id-token: write
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Reponi yuklash
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Pages uchun artifact tayyorlash
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-
-    steps:
-      - name: GitHub Pages ga deploy
+      - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
